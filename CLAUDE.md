@@ -127,7 +127,7 @@ The JSONL format is compatible with:
 ### Setup
 
 ```bash
-git clone https://github.com/Molecule-AI/molecule-ai-plugin-molecule-audit.git
+git clone https://git.moleculesai.app/molecule-ai/molecule-ai-plugin-molecule-audit.git
 cd molecule-ai-plugin-molecule-audit
 
 # Validate plugin.yaml
