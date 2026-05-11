@@ -1,6 +1,7 @@
 ---
 name: ai-act-audit-log
 description: "Emit immutable audit events for EU AI Act compliance. Use when a workspace performs any action that needs to be legally reconstructable: delegations, approvals, RBAC decisions, memory read/write. JSON Lines, append-only, SIEM-friendly."
+runtime: [claude_code]  # installed via AgentskillsAdaptor
 ---
 
 # EU AI Act Audit Log

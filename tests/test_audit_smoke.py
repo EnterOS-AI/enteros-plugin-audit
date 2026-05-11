@@ -165,5 +165,46 @@ class TestReadme(unittest.TestCase):
         self.assertIn('config', content.lower())
 
 
+class TestClaudeCodeAdaptor(unittest.TestCase):
+    """Verify the claude_code runtime adapter is present and well-formed."""
+
+    ADAPTER_PATH = os.path.join(REPO_ROOT, 'adapters', 'claude_code.py')
+    SKILL_PATH = os.path.join(REPO_ROOT, 'skills', 'ai-act-audit-log', 'SKILL.md')
+
+    def test_adapter_file_exists(self):
+        self.assertTrue(os.path.isfile(self.ADAPTER_PATH))
+
+    def test_adapter_exports_adaptor(self):
+        with open(self.ADAPTER_PATH) as f:
+            content = f.read()
+        self.assertIn('Adaptor', content)
+
+    def test_skill_md_has_runtime_field(self):
+        """SKILL.md frontmatter declares runtime:[claude_code] so the skill
+        loader does not skip this skill for the Claude Code runtime."""
+        import yaml
+        with open(self.SKILL_PATH) as f:
+            content = f.read()
+        parts = content.split('---', 2)
+        _, frontmatter, _ = parts
+        data = yaml.safe_load(frontmatter)
+        self.assertIn('runtime', data)
+
+
+class TestValidatePlugin(unittest.TestCase):
+    """Smoke-test validate-plugin.py."""
+
+    def test_exits_zero(self):
+        import subprocess
+        result = subprocess.run(
+            [sys.executable, os.path.join(REPO_ROOT, '.molecule-ci', 'scripts', 'validate-plugin.py')],
+            capture_output=True,
+            text=True,
+            cwd=REPO_ROOT,
+        )
+        self.assertEqual(result.returncode, 0, f"stdout: {result.stdout}\nstderr: {result.stderr}")
+        self.assertIn('molecule-audit', result.stdout)
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

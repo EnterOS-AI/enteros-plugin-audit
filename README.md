@@ -52,6 +52,18 @@ audit:
 
 - `ai-act-audit-log` — agent guidance on AI Act article requirements
 
+## Architecture
+
+```
+skills/
+  ai-act-audit-log/
+    SKILL.md   # Agent-side guidance (when/how to call log_event)
+adapters/
+  claude_code.py  # Installs skill via AgentskillsAdaptor; no scripts/ needed —
+                  # builtin_tools.audit does not expose @tool-decorated functions;
+                  # the audit layer is passive (other tools call log_event)
+```
+
 ## Known issues
 
 See [known-issues.md](known-issues.md).
